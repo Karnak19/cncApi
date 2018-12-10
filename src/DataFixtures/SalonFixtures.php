@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: wilder
@@ -15,20 +16,21 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Faker;
 use Symfony\Component\Security\Core\Encoder\Pbkdf2PasswordEncoder;
 
-class SalonFixtures extends Fixture {
+class SalonFixtures extends Fixture
+{
 
-    public function load(ObjectManager $manager){
+    public function load(ObjectManager $manager)
+    {
         $faker = Faker\Factory::create();
-        $salons= array("Salon charlo", "Clic and dick", "Art de pl'hair", "Chez le coiffeur", "Salon créa'tif", "Eau 6-ZO", "Elles salon", "Fake coiffure", "Salon babazile", "Salon El vianney");
         $pass = new Pbkdf2PasswordEncoder();
-        for($i=0 ; $i < 10 ; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $salon = new Salon();
-            $salon->setName($salons[$i]);
+            $salon->setName("salon" . $i);
             $salon->setPhone(0606060606);
             $salon->setPassword($pass->encodePassword('salon', 'password'));
-            $salon->setEmail("salon".$i."@salon.com");
+            $salon->setEmail("salon" . $i . "@salon.com");
             $manager->persist($salon);
-            $this->addReference('salon_'.$i, $salon);
+            $this->addReference('salon_' . $i, $salon);
         }
 
         $manager->flush();
