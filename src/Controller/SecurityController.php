@@ -30,17 +30,18 @@ class SecurityController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $cityManager = $this->getDoctrine()->getRepository(City::class);
         $user = new UserId();
-
-        $username = $request->request->get('username');
-        $password = $request->request->get('password');
-        $name = $request->request->get('name');
-        $surname = $request->request->get('surname');
-        $phone = $request->request->get('phone');
-        $sex = $request->request->get('sex');
-        $city =$cityManager->findOneBy(['name' => $request->request->get('city')]);
-
-        $user->setSurname($surname)->setName($name)->setCity($city)->setSex($sex)->setPassword($passwordEncoder->encodePassword($user, $password))
-            ->setPhone($phone)->setEmail($username);
+	$data = $request->getContent();
+	$data = json_decode($data, true);
+	$username = $data['username'];
+        $password = $data['password'];
+        $name = $data['name'];
+        $surname = $data['surname'];
+        $phone = $data['phone'];
+        $sex = $data['sex'];
+        $city = $cityManager->findOneBy(['name' => 'Anglet']);
+	
+        $user->setEmail($username)->setName($name)->setCity($city)->setSex($sex)->setPassword($passwordEncoder->encodePassword($user, $password))
+            ->setPhone($phone)->setSurname($surname);
 
         $em->persist($user);
         $em->flush();
