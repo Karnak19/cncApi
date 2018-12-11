@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: wilder
@@ -26,20 +27,21 @@ class SecurityController extends AbstractController
        return $this->getUser();
     }     */
 
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder){
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
         $em = $this->getDoctrine()->getManager();
         $cityManager = $this->getDoctrine()->getRepository(City::class);
         $user = new UserId();
-	$data = $request->getContent();
-	$data = json_decode($data, true);
-	$username = $data['username'];
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+        $username = $data['username'];
         $password = $data['password'];
         $name = $data['name'];
         $surname = $data['surname'];
         $phone = $data['phone'];
         $sex = $data['sex'];
         $city = $cityManager->findOneBy(['name' => 'Anglet']);
-	
+
         $user->setEmail($username)->setName($name)->setCity($city)->setSex($sex)->setPassword($passwordEncoder->encodePassword($user, $password))
             ->setPhone($phone)->setSurname($surname);
 
@@ -49,7 +51,8 @@ class SecurityController extends AbstractController
         return new Response(sprintf('User %s successfully created', $user->getUsername()));
     }
 
-    public function me(){
+    public function me()
+    {
         return new Response(sprintf('%d', $this->getUser()->getId()));
     }
 }
