@@ -37,7 +37,7 @@ class UserId implements UserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=50)
      */
     private $phone;
 
@@ -70,6 +70,11 @@ class UserId implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Rdv", mappedBy="userid")
      */
     private $rdvs;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Salon", inversedBy="userId", cascade={"persist", "remove"})
+     */
+    private $salon;
 
     public function __construct()
     {
@@ -259,6 +264,18 @@ class UserId implements UserInterface
                 $rdv->setUserid(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSalon(): ?Salon
+    {
+        return $this->salon;
+    }
+
+    public function setSalon(?Salon $salon): self
+    {
+        $this->salon = $salon;
 
         return $this;
     }

@@ -34,12 +34,15 @@ class UserIdFixture extends Fixture implements DependentFixtureInterface {
             $user->setName($faker->firstName);
             $user->setSurname(sprintf("user%d",$i));
             $user->setEmail(sprintf("user%d@user.com", $i));
-            $user->setPhone(0606060606);
+            $user->setPhone('0606060606');
             $user->setPassword($this->encoder->encodePassword($user, 'userid'));
             $user->setSex($sex[$i%2]);
             $manager->persist($user);
             $this->addReference('userid_'.$i, $user);
             $user->setCity($this->getReference('city_'.rand(0,9)));
+            if ($i % 5 == 0){
+                $user->setSalon($this->getReference('salon_'.rand(0,9)));
+            }
         }
 
         $manager->flush();

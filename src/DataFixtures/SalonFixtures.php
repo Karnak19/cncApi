@@ -29,8 +29,13 @@ class SalonFixtures extends Fixture {
             $salon->setEmail("salon".$i."@salon.com");
             $manager->persist($salon);
             $this->addReference('salon_'.$i, $salon);
+            $salon->setCity($this->getReference('city_'.rand(0,9)));
         }
 
         $manager->flush();
     }
+    public function getDependencies()
+        {
+            return [CityFixtures::class];
+        }
 }
