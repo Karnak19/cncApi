@@ -55,6 +55,17 @@ class Salon
      */
     private $prestations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="salons")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $city;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserId", mappedBy="salon", cascade={"persist", "remove"})
+     */
+    private $userId;
+
     public function __construct()
     {
         $this->stylists = new ArrayCollection();
@@ -183,6 +194,36 @@ class Salon
             if ($prestation->getSalon() === $this) {
                 $prestation->setSalon(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getUserId(): ?UserId
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?UserId $userId): self
+    {
+        $this->userId = $userId;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newSalon = $userId === null ? null : $this;
+        if ($newSalon !== $userId->getSalon()) {
+            $userId->setSalon($newSalon);
         }
 
         return $this;

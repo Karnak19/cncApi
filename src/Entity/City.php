@@ -35,9 +35,15 @@ class City
      */
     private $userIds;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Salon", mappedBy="city")
+     */
+    private $salons;
+
     public function __construct()
     {
         $this->userIds = new ArrayCollection();
+        $this->salons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +100,37 @@ class City
             // set the owning side to null (unless already changed)
             if ($userId->getCity() === $this) {
                 $userId->setCity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Salon[]
+     */
+    public function getSalons(): Collection
+    {
+        return $this->salons;
+    }
+
+    public function addSalon(Salon $salon): self
+    {
+        if (!$this->salons->contains($salon)) {
+            $this->salons[] = $salon;
+            $salon->setCity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSalon(Salon $salon): self
+    {
+        if ($this->salons->contains($salon)) {
+            $this->salons->removeElement($salon);
+            // set the owning side to null (unless already changed)
+            if ($salon->getCity() === $this) {
+                $salon->setCity(null);
             }
         }
 
