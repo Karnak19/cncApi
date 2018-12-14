@@ -19,11 +19,10 @@ class SalonFixtures extends Fixture {
 
     public function load(ObjectManager $manager){
         $faker = Faker\Factory::create();
-        $salons= array("Salon charlo", "Clic and dick", "Art de pl'hair", "Chez le coiffeur", "Salon créa'tif", "Eau 6-ZO", "Elles salon", "Fake coiffure", "Salon babazile", "Salon El vianney");
         $pass = new Pbkdf2PasswordEncoder();
-        for($i=0 ; $i < 10 ; $i++){
+        for($i=0 ; $i < 20 ; $i++){
             $salon = new Salon();
-            $salon->setName($salons[$i]);
+            $salon->setName("salon".$i);
             $salon->setPhone(0606060606);
             $salon->setPassword($pass->encodePassword('salon', 'password'));
             $salon->setEmail("salon".$i."@salon.com");
