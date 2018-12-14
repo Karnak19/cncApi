@@ -41,9 +41,20 @@ class UserIdFixture extends Fixture implements DependentFixtureInterface {
             $this->addReference('userid_'.$i, $user);
             $user->setCity($this->getReference('city_'.rand(0,9)));
             if ($i % 5 == 0){
-                $user->setSalon($this->getReference('salon_'.rand(0,9)));
+                $user->setSalon($this->getReference('salon_'.$i));
+                $user->setRoles(['ROLE_SALON']);
             }
         }
+        $user = new UserId();
+        $user->setName('admin');
+        $user->setSurname('admin');
+        $user->setEmail("admin@admin.com");
+        $user->setPhone('0606060606');
+        $user->setPassword($this->encoder->encodePassword($user, 'admin'));
+        $user->setSex('Homme');
+        $user->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user);
+        $user->setCity($this->getReference('city_'.rand(0,9)));
 
         $manager->flush();
     }
