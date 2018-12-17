@@ -21,7 +21,7 @@ class RdvFixture extends Fixture implements DependentFixtureInterface {
         for($i=0 ; $i <= 50 ; $i++){
             $rdv = new Rdv();
             $format = 'Y-m-d H:i:s';
-            $stringDate = '2018-'.rand(1,12).'-'.rand(1,29).' '.rand(10,19).':'.rand(10,59).':00';
+            $stringDate = '2018-'.rand(1,12).'-'.rand(1,29).' '.rand(10,19).':30:00';
             $date= \DateTime::createFromFormat($format, $stringDate);
             $dateEnd= \DateTime::createFromFormat($format, $stringDate);
             $dateEnd->modify('+1 hour');

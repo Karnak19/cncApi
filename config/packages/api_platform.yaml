@@ -1,4 +1,9 @@
 api_platform:
+    collection:
+        pagination:
+            enabled: false
+    eager_loading:
+        max_joins: 200
     swagger:
         api_keys:
             apiKey:
